@@ -1,0 +1,59 @@
+.app {
+  width: 700px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  border: solid 1px #ccc;
+}
+
+.row {
+  margin: 0;
+}
+
+.todoForm {
+  padding: 10px;
+}
+
+.todo {
+  padding: 10px;
+  border-top: solid 1px #ccc;
+}
+
+.hidden {
+  display: none;
+}
+
+.editing {
+  border: solid 1px black;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.ctn-todo-text {
+  width: 100%;
+  background-color: #fff;
+}
+
+.todoForm input,
+.todo input {
+  border: none;
+  box-shadow: none;
+}
+
+.todo.completed .ctn-todo-text{
+  text-decoration: line-through;
+  color: #ccc;
+}
+
+.footer {
+  padding: 10px;
+  border-top: solid 1px #ccc;
+}
+
+.display-controls {
+  text-align: center;
+}
+
+.btn-clear-completed {
+  text-align: right;
+}
