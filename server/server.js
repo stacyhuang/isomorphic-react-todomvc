@@ -9,9 +9,10 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
+import { RouterContext, match } from 'react-router';
 
 import configureStore from '../common/store/configureStore';
-import App from '../common/components/App'
+import routes from '../common/routes';
 
 const app = Express();
 const port = 3000;
@@ -25,23 +26,38 @@ app.use(webpackHotMiddleware(compiler));
 app.use(handleRender);
 
 function handleRender(req, res) {
-  let initialState = {};
-
+  const initialState = {};
   // create a new Redux store instance
   const store = configureStore(initialState);
 
-  // render the component to a string
-  const html = renderToString(
-    <Provider store={store}>
-      <App />
-    </Provider>
-  );
+  match({ routes, location: req.url }, (error, redirectLocation, renderProps) => {
+    if (error) {
+      return res.status(500).send(error.message);
+    }
 
-  // grab the initial state from our Redux store
-  const finalState = store.getState();
+    if (!renderProps) {
+      return res.status(404).send('Not found');
+    }
 
-  // send the rendered page back to the client
-  res.send(renderFullPage(html, finalState));
+    if (redirectLocation) {
+      return res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+    }
+
+    const InitialComponent = (
+      <Provider store={store}>
+        <RouterContext {...renderProps} />
+      </Provider>
+    )
+
+    // render the component to a string
+    const html = renderToString(InitialComponent);
+
+    // grab the initial state from our Redux store
+    const finalState = store.getState();
+
+    // send the rendered page back to the client
+    res.status(200).send(renderFullPage(html, finalState));
+  })
 }
 
 function renderFullPage(html, initialState) {
