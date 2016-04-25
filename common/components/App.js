@@ -3,6 +3,10 @@ import TodoForm from "../containers/TodoForm";
 import VisibleTodoList from "../containers/VisibleTodoList";
 import Footer from "./Footer";
 
+if (process.env.BROWSER) {
+  require('../assets');
+}
+
 class App extends Component {
   render() {
     return (

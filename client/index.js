@@ -1,6 +1,3 @@
-require('bootstrap/dist/css/bootstrap.css');
-require('./style.css');
-
 import 'babel-polyfill'
 import React from "react";
 import { render } from "react-dom";
@@ -20,17 +17,17 @@ const rootEl = document.getElementById("app");
 
 let renderApp = () => {
   // inline require because we want to import the latest version after update
-  const App = require('../common/components/App').default;
-  render(
+  const routes = require('../common/routes').default;
+  const App = (
     <Provider store={store}>
       <Router children={routes} history={browserHistory} />
-    </Provider>,
-    rootEl
+    </Provider>
   );
+  render(App, rootEl);
 };
 
 if (module.hot) {
-  module.hot.accept('../common/components/App', () => {
+  module.hot.accept('../common/routes', () => {
     renderApp();
   })
 }

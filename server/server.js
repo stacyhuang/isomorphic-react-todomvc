@@ -66,6 +66,7 @@ function renderFullPage(html, initialState) {
     <html>
       <head>
         <title>TodoMVC</title>
+        <link rel="stylesheet" href="/static/style.css">
       </head>
       <body>
         <div id="app">${html}</div>

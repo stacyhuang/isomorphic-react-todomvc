@@ -1,5 +1,6 @@
 import path from 'path';
 import webpack from 'webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 module.exports = {
   devtool: 'inline-source-map',
@@ -9,18 +10,25 @@ module.exports = {
     './client/index'
   ],
 
+  // enable hot reloading
+  plugins: [
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin(),
+    new webpack.DefinePlugin({
+        "process.env": {
+            BROWSER: JSON.stringify(true),
+            NODE_ENV: JSON.stringify( process.env.NODE_ENV || 'development' )
+        }
+    }),
+    new ExtractTextPlugin("style.css")
+  ],
+
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
     publicPath: '/static'
   },
-
-  // enable hot reloading
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin()
-  ],
 
   module: {
     loaders: [
@@ -32,7 +40,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style-loader!css-loader'
+        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
       },
       {
         test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
