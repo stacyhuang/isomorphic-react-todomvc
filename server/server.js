@@ -1,10 +1,9 @@
 import path from 'path';
-import Express from 'express';
+import express from 'express';
 
 import webpack from 'webpack';
 import webpackConfig from '../webpack.config';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -14,13 +13,17 @@ import { RouterContext, match } from 'react-router';
 import configureStore from '../common/store/configureStore';
 import routes from '../common/routes';
 
-const app = Express();
-const port = 3000;
+const app = express();
+const port = process.env.PORT || 3000;
+const inDevelopment = process.env.NODE_ENV !== 'production';
 
-// add middleware to express server
-const compiler = webpack(webpackConfig);
-app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
-app.use(webpackHotMiddleware(compiler));
+if (inDevelopment) {
+  // add middleware to express server
+  const compiler = webpack(webpackConfig);
+  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: webpackConfig.output.publicPath }));
+}
+
+app.use(express.static('dist'));
 
 // fired every time the server side receives a request
 app.use(handleRender);
@@ -40,7 +43,7 @@ function handleRender(req, res) {
     }
 
     if (redirectLocation) {
-      return res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+      return res.redirect(301, redirectLocation.pathname + redirectLocation.search)
     }
 
     const InitialComponent = (
@@ -66,14 +69,14 @@ function renderFullPage(html, initialState) {
     <html>
       <head>
         <title>TodoMVC</title>
-        <link rel="stylesheet" href="/static/style.css">
+        <link rel="stylesheet" href="/style.css">
       </head>
       <body>
         <div id="app">${html}</div>
         <script>
           window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}
         </script>
-        <script src="/static/bundle.js"></script>
+        <script type="application/javascript" src="/bundle.js"></script>
       </body>
     </html>
   `

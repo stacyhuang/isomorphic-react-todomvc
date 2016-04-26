@@ -1,3 +1,5 @@
+require('../common/assets');
+
 import 'babel-polyfill'
 import React from "react";
 import { render } from "react-dom";
@@ -15,21 +17,9 @@ const store = configureStore(initialState);
 
 const rootEl = document.getElementById("app");
 
-let renderApp = () => {
-  // inline require because we want to import the latest version after update
-  const routes = require('../common/routes').default;
-  const App = (
-    <Provider store={store}>
-      <Router children={routes} history={browserHistory} />
-    </Provider>
-  );
-  render(App, rootEl);
-};
-
-if (module.hot) {
-  module.hot.accept('../common/routes', () => {
-    renderApp();
-  })
-}
-
-renderApp();
+render(
+  <Provider store={store}>
+    <Router children={routes} history={browserHistory} />
+  </Provider>
+  , rootEl
+);

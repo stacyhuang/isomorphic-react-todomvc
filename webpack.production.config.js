@@ -3,10 +3,8 @@ var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
-  devtool: 'inline-source-map',
-
   entry: [
-    './client/index'
+    './client'
   ],
 
   output: {
@@ -16,9 +14,15 @@ module.exports = {
   },
 
   plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    }),
     new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: '"development"'
+          NODE_ENV: '"production"'
         }
     }),
     new ExtractTextPlugin("style.css")

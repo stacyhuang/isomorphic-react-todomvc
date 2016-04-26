@@ -1,7 +1,9 @@
 {
   "name": "todoMVC-client",
   "scripts": {
-    "start": "node server/index.js"
+    "dev": "node server",
+    "start": "NODE_ENV=production node server",
+    "build": "NODE_ENV=production webpack --config webpack.production.config.js --progress -p --color"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
@@ -28,7 +30,6 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "webpack": "^1.13.0",
-    "webpack-dev-middleware": "^1.6.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "webpack-dev-middleware": "^1.6.1"
   }
 }
