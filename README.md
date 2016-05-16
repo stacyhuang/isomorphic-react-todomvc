@@ -1,4 +1,4 @@
-# Isomorphic React TodoMVC
+# TodoMVC - server-side rendering
 TodoMVC - React implementation with server-side rendering
 
 
