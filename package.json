@@ -1,9 +1,10 @@
 {
   "name": "todoMVC-client",
   "scripts": {
-    "dev": "node server",
-    "start": "NODE_ENV=production node server",
-    "build": "NODE_ENV=production webpack --config webpack.production.config.js --progress -p --color"
+    "dev": "node index.js",
+    "start": "NODE_ENV=production node index.js",
+    "production": "NODE_ENV=production webpack --config webpack.production.config.js -p --color",
+    "postinstall": "npm run production"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
@@ -15,9 +16,7 @@
     "react-redux": "^4.4.0",
     "react-router": "^2.3.0",
     "redux": "^3.3.1",
-    "redux-thunk": "^2.0.1"
-  },
-  "devDependencies": {
+    "redux-thunk": "^2.0.1",
     "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",
     "babel-polyfill": "^6.7.4",

@@ -2,7 +2,7 @@ import path from 'path';
 import express from 'express';
 
 import webpack from 'webpack';
-import webpackConfig from '../webpack.config';
+import webpackConfig from './webpack.config';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 
 import React from 'react';
@@ -10,8 +10,8 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { RouterContext, match } from 'react-router';
 
-import configureStore from '../common/store/configureStore';
-import routes from '../common/routes';
+import configureStore from './common/store/configureStore';
+import routes from './common/routes';
 
 const app = express();
 const port = process.env.PORT || 3000;
